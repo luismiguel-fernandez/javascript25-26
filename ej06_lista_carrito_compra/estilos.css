@@ -25,5 +25,6 @@ th {
     width: 50%;
 }
 .seleccionado {
-    background-color: yellow;
+    background-color: rgba(255, 255, 0, 0.329);
+    /*display: inline-block;*/
 }
