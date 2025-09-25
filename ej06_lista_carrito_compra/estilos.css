@@ -1,0 +1,29 @@
+body,.container {
+    background-color: lightgrey;
+    font-family: 'K2D', sans-serif;
+}
+h1 {
+    font-family: 'Indie Flower', cursive;
+    text-align: center;
+}
+table, table td {
+    border: solid thin black;
+}
+table {
+    background-color: darkseagreen;
+    width: 75%;
+    margin: auto;
+}
+td {
+    padding: 5px;
+    width: 50%;
+}
+th {
+    background-color: darksalmon;
+}
+#tablaInput {
+    width: 50%;
+}
+.seleccionado {
+    background-color: yellow;
+}
