@@ -56,6 +56,22 @@ function acabar_partida() {
     clearInterval(timer_bola)
     clearInterval(timer_partida)
     partida_en_marcha = false
+    //comprobar si los puntos merecen entrar en los records
+    if (puntos > records[records.length-1].puntos) {
+        //entro en los records, le pido un nombre
+        let nick = prompt("Indica tu nombre para la tabla de records:")
+        records.push({
+            nombre: nick,
+            puntos: puntos
+        })
+        records.sort( (a,b) => {
+            if (a.puntos <= b.puntos) return 1
+            else return -1
+        } )
+        //records.sort( (a,b) => a.puntos - b.puntos ) //en este caso, esta linea es equiv
+        records = records.slice(0,records.length-1)
+        mostrar_records()
+    }
 }
 function decrementar_tiempo() {
     segundero--
@@ -65,6 +81,7 @@ function decrementar_tiempo() {
     }
 }
 function mostrar_records(){
+    cuerpoRecords.innerHTML = ""  //poda todos los TR del TBODY, pero no borra TBODY
     let posicion = 1
     records.forEach( r => {
         //crear una fila TR
