@@ -7,6 +7,10 @@ const ALTURA_TABLERO = 450
 const DIAMETRO_BOLA = 30
 
 const addBallBtn = document.querySelector("#addBallBtn")
+const add10BallsBtn = document.querySelector("#add10BallsBtn")
+const remBallBtn = document.querySelector("#remBallBtn")
+const rem10BallsBtn = document.querySelector("#rem10BallsBtn")
+const ballCounter = document.querySelector("#ballCounter")
 
 /*********************/
 /* código automático */
@@ -17,11 +21,28 @@ tablero.style.width = ANCHURA_TABLERO + "px"
 tablero.style.height = ALTURA_TABLERO + "px"
 
 let bolas = []
+ballCounter.value = bolas.length
 
 //1. Los botones escuchen clics
 addBallBtn.addEventListener("click", function() {
     crear_bola()
 })
+
+add10BallsBtn.addEventListener("click", function(){
+    for (let i=1; i<=10; i++)
+        crear_bola()
+})
+
+remBallBtn.addEventListener("click",function(){
+    eliminar_bola()
+})
+
+rem10BallsBtn.addEventListener("click",function(){
+    for (let i=1; i<=10; i++) {
+        eliminar_bola()
+    }
+})
+
 
 //2. interval para que la bola se mueva un poco cada 50 ms
 let intervalo = setInterval( moverBolas, 20 )
@@ -45,6 +66,18 @@ function crear_bola() {
     )
     instanciaBola.punteroDiv.style.backgroundColor = instanciaBola.color
     bolas.push(instanciaBola)
+    ballCounter.value = bolas.length
+}
+function eliminar_bola() {
+    if (bolas.length) //si es mayor que 0, si hay al menos 1 bola que borrar
+        {
+            let ultimaBola = bolas.pop()
+            ballCounter.value = bolas.length
+            //borrar primero el DIV del árbol DOM, lo que ve el usuario
+            ultimaBola.punteroDiv.remove()
+            //borrar la instancia JS de la bola, lo que ve el programador
+            delete ultimaBola.instance //buscado en internet, requiere confirmar
+        }
 }
 function moverBolas() {
     bolas.forEach( b => {
