@@ -10,14 +10,30 @@ const EMPRESAS = [
     "Patatas Acho"
 ]
 
-let choices = []
-
 const studentName = document.querySelector("#studentName")
 const choice1 = document.querySelector("#choice1")
 const choice2 = document.querySelector("#choice2")
 const insertButton = document.querySelector("#insertButton")
 const errorMsg = document.querySelector("#errorMsg")
 const cuerpoTabla = document.querySelector("#studentsChoices>tbody")
+
+
+//choices se inicializa a:
+//  1) los datos que tengamos guardados en LocalStorage, si los hay
+//  2) array vacío si no hay nada en LocalStorage
+let choices
+if (localStorage.getItem("choices")) {
+    choices = JSON.parse( localStorage.getItem("choices") )
+    //ahora muestra en pantalla (en el TABLE de HTML) lo que acabas de recuperar de LocalStorage
+    arrayToTable()
+} else {
+    choices = []
+}
+//alternativa compacta
+/*
+    let choices = JSON.parse( localStorage.getItem("choices") || "[]" )
+    arrayToTable()
+*/
 
 //RETO #1: rellenar el primer SELECT con estas empresas
 EMPRESAS.forEach( (emp,index) => {
@@ -61,6 +77,8 @@ insertButton.addEventListener("click", function(){
             choice2: choice2.selectedOptions[0].textContent
         })
         addRow()
+        //guardar en LocalStorage el array choices convertido a string 
+        localStorage.setItem( "choices", JSON.stringify(choices) )
 
         errorMsg.textContent = ""
         //resetear formulario
@@ -98,6 +116,39 @@ function addRow(){
                                           a.choice2 == celda3.textContent )
         if (pos != -1) {
             choices.splice(pos,1)
+            localStorage.setItem( "choices", JSON.stringify(choices) )
         }
     })
+}
+
+
+function arrayToTable(){
+    choices.forEach( c => {
+        //añadir al TBODY un TR con 4 TD para mostrar el choice "c"
+        let nuevoTR = cuerpoTabla.insertRow()
+        let celda1 = nuevoTR.insertCell()
+        let celda2 = nuevoTR.insertCell()
+        let celda3 = nuevoTR.insertCell()
+        let celda4 = nuevoTR.insertCell()
+        celda1.textContent = c.name
+        celda2.textContent = c.choice1
+        celda3.textContent = c.choice2
+
+        let botonBorrar = document.createElement("button")
+        botonBorrar.classList.add("btn","btn-danger")
+        botonBorrar.textContent = "X"
+        celda4.append(botonBorrar)
+        botonBorrar.addEventListener("click", function(){
+            //borrar TR del HTML
+            nuevoTR.remove()
+            //borrar también objeto del array
+            let pos = choices.findIndex( a => a.name == celda1.textContent &&
+                                            a.choice1 == celda2.textContent &&
+                                            a.choice2 == celda3.textContent )
+            if (pos != -1) {
+                choices.splice(pos,1)
+                localStorage.setItem( "choices", JSON.stringify(choices) )
+            }
+        })
+    } )
 }

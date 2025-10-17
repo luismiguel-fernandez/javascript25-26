@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de videojuegos</title>
+    <script defer type="text/javascript" src="script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row mt-4">
+        <div id="divGame" class="input-group has-validation">
+            <span class="input-group-text">VIDEOJUEGO</span>
+            <div class="form-floating is-invalid">
+                <input type="text" class="form-control is-invalid" id="game" placeholder="Nombre del videojuego" required>
+                <label for="game">Nombre del videojuego</label>
+            </div>
+            <div class="invalid-feedback">
+                Por favor, escribe un nombre correcto de videojuego.
+            </div>
+        </div>
+
+        <div id="divYear" class="input-group has-validation">
+            <span class="input-group-text">AÑO</span>
+            <div class="form-floating is-invalid">
+                <input type="text" class="form-control is-invalid" id="year" placeholder="Año de publicación del videojuego" required>
+                <label for="year">Año del videojuego</label>
+            </div>
+            <div class="invalid-feedback">
+                Por favor, escribe un año correcto.
+            </div>
+        </div>
+
+        <div id="divPlatform" class="input-group has-validation">
+            <span class="input-group-text">PLATAFORMA</span>
+            <div class="form-floating is-invalid">
+                <select class="form-select is-invalid" id="platform">
+                    <option selected>Elige plataforma</option>
+                    <option value="1">DOS</option>
+                    <option value="2">Windows</option>
+                    <option value="3">Linux</option>
+                </select>
+                <label for="platform">Plataforma del videojuego</label>
+            </div>
+            <div class="invalid-feedback">
+                Por favor, escribe una plataforma correcta.
+            </div>
+        </div>
+
+        <input id="enviarBtn" type="button" value="Enviar" class="btn btn-success">
+    </div>
+
+    <table id="videogamesList" class="table">
+        <thead>
+            <tr>
+                <th>Videojuego</th>
+                <th>Año</th>
+                <th>Plataforma</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div> <!-- CONTAINER -->
+</body>
+</html>
