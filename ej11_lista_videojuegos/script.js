@@ -43,9 +43,25 @@ let db = [
   
 
 //refrescar la vista con los datos del modelo
+//arrayToTable(db,videogamesList)
+
+//db_filtered = db.filter( game => game.title.toLowerCase().includes("w") )
+
+//ordenar alfabéticamente por nombre
+db.sort( (game1,game2) => {
+    if (game1.title.toLowerCase() < game2.title.toLowerCase()) return -1
+    else return 1
+} )
+
+//ordenar numéricamente por año
+db.sort( (game1,game2) => {
+    /*if (game1.year < game2.year) return -1
+    else return 1*/
+    //alternativa más compacta: restar equivale al if..else anterior (devuelve neg o pos)
+    return game1.year - game2.year
+} )
+
 arrayToTable(db,videogamesList)
-
-
 
 function arrayToTable(array,table) {
     //mostrar el array indicado en la estructura table proporcionada
