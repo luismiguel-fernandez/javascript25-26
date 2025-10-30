@@ -6,6 +6,8 @@ const sendBtn = document.querySelector("#sendBtn")
 const videogamesList = document.querySelector("#videogamesList")
 
 //let db = JSON.parse( localStorage.getItem("db") || "[]" )
+let order = false //false: a-->z o 0-->9
+                  //true: z-->a o 9-->0
 
 const db = [
     {title: "hola", year: "1970", platform: "dos" },
@@ -22,10 +24,11 @@ const yearHead = document.querySelectorAll("#videogamesList th")[1]
 const platformHead = document.querySelectorAll("#videogamesList th")[2]
 
 titleHead.addEventListener("click",function(){
+    order = !order
     //ordenar alfabéticamente por nombre
     db.sort( (game1,game2) => {
-        if (game1.title.toLowerCase() < game2.title.toLowerCase()) return -1
-        else return 1
+        if (game1.title.toLowerCase() < game2.title.toLowerCase()) return order?-1:1
+        else return order?1:-1
     } )
     //renderizar de nuevo el array ya ordenado
     arrayToTable(db,videogamesList)
