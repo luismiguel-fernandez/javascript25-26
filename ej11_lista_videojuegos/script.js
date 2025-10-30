@@ -15,6 +15,7 @@ const db = [
     {title: "que tal", year: "1965", platform: "atari" }
 ]
 arrayToTable(db,videogamesList)
+let db_filtered = []
 
 //encabezado TITULO del juego, clicable para ordenar
 const titleHead = document.querySelector("#videogamesList th")
@@ -26,17 +27,23 @@ const platformHead = document.querySelectorAll("#videogamesList th")[2]
 titleHead.addEventListener("click",function(){
     order = !order
     //ordenar alfabéticamente por nombre
-    db.sort( (game1,game2) => {
+    db_filtered.sort( (game1,game2) => {
         if (game1.title.toLowerCase() < game2.title.toLowerCase()) return order?-1:1
         else return order?1:-1
     } )
     //renderizar de nuevo el array ya ordenado
-    arrayToTable(db,videogamesList)
+    arrayToTable(db_filtered,videogamesList)
 })
 
-//db_filtered = db.filter( game => game.title.toLowerCase().includes("w") )
 
-
+let secondDiv = document.querySelectorAll(".container>div")[1]
+let patternInput = secondDiv.querySelector("input.form-control[type='text']")
+patternInput.addEventListener("keyup",function(){
+    //filtrar por lo que el usuario haya escrito en esta caja
+    db_filtered = db.filter( game => game.title.toLowerCase().includes(patternInput.value.trim().toLowerCase())
+                                    || game.year.includes(patternInput.value.trim() ))
+    arrayToTable(db_filtered,videogamesList)
+})
 
 //ordenar numéricamente por año
 db.sort( (game1,game2) => {
@@ -59,5 +66,6 @@ function arrayToTable(array,table) {
         newTD1.textContent = game.title
         newTD2.textContent = game.year
         newTD3.textContent = game.platform
+        //newTD4.
     } )
 }
