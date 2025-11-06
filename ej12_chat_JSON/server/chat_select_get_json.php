@@ -26,7 +26,7 @@ if(isset($_GET['ultimo'])) {
     $server = "mysql:dbname=chat";
 	$user = "root";
 	$pw = "";
-	$con = new PDO($server,$user,$pw,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+	$con = new PDO($server,$user,$pw,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8MB4\''));
 
    
     echo json_encode( queryMensajes($_GET['ultimo'],$con) );

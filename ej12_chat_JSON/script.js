@@ -6,7 +6,7 @@ teclado.addEventListener("keyup",function(ev){
     if (ev.key == "Enter") {
         //recuperamos el nick y el mensaje
         let nickValue = nick.value.trim()
-        let mensajeValue = teclado.value
+        let mensajeValue = teclado.value.replace("<","")
         if (nickValue && mensajeValue) {
             //llamar al PHP de insercion de mensajes
             let options = {
@@ -42,6 +42,7 @@ function consultarMensajes() {
             chat.append(nuevoDiv)
             nuevoDiv.classList.add("mensaje")
             ultimoId = m.id
+            chat.scrollTop = chat.scrollHeight
         })
     })
 }

@@ -3,7 +3,7 @@ if(isset($_POST['nick'])&&isset($_POST['mensaje'])) {
 		$server = "mysql:dbname=chat";
 		$user = "root";
 		$pass = "";
-		$con = new PDO($server,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+		$con = new PDO($server,$user,$pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8MB4\''));
 
 		$consulta = "INSERT INTO mensajes(nick,mensaje) VALUES(?,?)";
 		$sen = $con->prepare($consulta);
