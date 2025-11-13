@@ -1,7 +1,10 @@
 const login_form = document.getElementById('login_form');
+const login_button = login_form.querySelector('button');
 
-login_form.addEventListener('submit', function(event) {
-    event.preventDefault()
+//login_form.addEventListener('submit', function(event) {
+//    event.preventDefault()
+
+login_button.addEventListener('click', function(event) {
     
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;

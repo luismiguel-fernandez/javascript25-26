@@ -30,57 +30,62 @@ try {
 // 3. RECUPERACIÓN Y SANITIZACIÓN DE DATOS (Simulando datos de un formulario POST)
 // ====================================================================
 
-// **¡ADVERTENCIA!** En un caso real, estos datos vendrían de $_POST.
-// Por ahora, usamos datos de ejemplo:
-$nombre = $_POST['nombre'];
-$email = $_POST['email'];
-$password_plano = $_POST['password_plano'];
+if (isset($_POST['nombre']) && isset($_POST['email']) && isset($_POST['password_plano'])) {
+    $nombre = $_POST['nombre'];
+    $email = $_POST['email'];
+    $password_plano = $_POST['password_plano'];
 
-// Limpiar y validar los datos. (PDO ayuda a prevenir inyecciones SQL, pero la validación es clave)
-$nombre = filter_var(trim($nombre), FILTER_SANITIZE_STRING);
-$email = filter_var(trim($email), FILTER_SANITIZE_EMAIL);
+    // Limpiar y validar los datos. (PDO ayuda a prevenir inyecciones SQL, pero la validación es clave)
+    $nombre = filter_var(trim($nombre), FILTER_SANITIZE_STRING);
+    $email = filter_var(trim($email), FILTER_SANITIZE_EMAIL);
 
-// Generar un hash seguro de la contraseña
-$password_hash = password_hash($password_plano, PASSWORD_DEFAULT);
+    // Generar un hash seguro de la contraseña
+    $password_hash = password_hash($password_plano, PASSWORD_DEFAULT);
 
-// Comprobación básica de que tenemos datos esenciales
-if (empty($nombre) || empty($email) || empty($password_hash)) {
-    echo "Faltan datos esenciales para el registro.";
-    exit;
-}
-
-// ====================================================================
-// 4. VERIFICACIÓN DE EMAIL EXISTENTE
-// ====================================================================
-
-// Prepara la consulta SELECT para buscar el email
-$sql_check = "SELECT COUNT(*) FROM Usuarios WHERE email = ?";
-$stmt_check = $pdo->prepare($sql_check);
-$stmt_check->execute([$email]);
-$email_count = $stmt_check->fetchColumn();
-
-if ($email_count > 0) {
-    // Si el contador es mayor que cero, el email ya existe.
-    echo "❌ Error: El email '$email' ya está registrado. Por favor, utiliza otro.";
-    
-} else {
-    // ====================================================================
-    // 5. INSERCIÓN DEL NUEVO USUARIO
-    // ====================================================================
-
-    // Prepara la consulta INSERT. Usamos placeholders (?) para seguridad (sentencias preparadas).
-    $sql_insert = "INSERT INTO Usuarios (nombre, email, password_hash) VALUES (?, ?, ?)";
-    $stmt_insert = $pdo->prepare($sql_insert);
-    
-    // Ejecuta la consulta con los datos
-    if ($stmt_insert->execute([$nombre, $email, $password_hash])) {
-        echo "✅ ¡Usuario registrado con éxito!";
-        echo "<br>ID del nuevo usuario: " . $pdo->lastInsertId();
-    } else {
-        echo "❌ Error al intentar registrar el usuario.";
+    // Comprobación básica de que tenemos datos esenciales
+    if (empty($nombre) || empty($email) || empty($password_hash)) {
+        //echo "Faltan datos esenciales para el registro.";
+        echo json_encode( $respuesta = false );
+        exit;
     }
-}
 
+    // ====================================================================
+    // 4. VERIFICACIÓN DE EMAIL EXISTENTE
+    // ====================================================================
+
+    // Prepara la consulta SELECT para buscar el email
+    $sql_check = "SELECT COUNT(*) FROM Usuarios WHERE email = ?";
+    $stmt_check = $pdo->prepare($sql_check);
+    $stmt_check->execute([$email]);
+    $email_count = $stmt_check->fetchColumn();
+
+    if ($email_count > 0) {
+        // Si el contador es mayor que cero, el email ya existe.
+        //echo "❌ Error: El email '$email' ya está registrado. Por favor, utiliza otro.";
+        echo json_encode( $respuesta = false );
+        
+    } else {
+        // ====================================================================
+        // 5. INSERCIÓN DEL NUEVO USUARIO
+        // ====================================================================
+
+        // Prepara la consulta INSERT. Usamos placeholders (?) para seguridad (sentencias preparadas).
+        $sql_insert = "INSERT INTO Usuarios (nombre, email, password_hash) VALUES (?, ?, ?)";
+        $stmt_insert = $pdo->prepare($sql_insert);
+        
+        // Ejecuta la consulta con los datos
+        if ($stmt_insert->execute([$nombre, $email, $password_hash])) {
+            //echo "✅ ¡Usuario registrado con éxito!";
+            //echo "<br>ID del nuevo usuario: " . $pdo->lastInsertId();
+            echo json_encode( $respuesta = true );
+        } else {
+            //echo "❌ Error al intentar registrar el usuario.";
+            echo json_encode( $respuesta = false );
+        }
+    }
+} else {
+    echo json_encode( $respuesta = false );
+}
 // Cierre de la conexión (PDO la cierra automáticamente al terminar el script, pero es buena práctica)
 $pdo = null;
 
